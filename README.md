@@ -35,7 +35,8 @@ Exibe o conteúdo do carrinho de compras.
 ### 2. `categoria.php`
 Formulário para cadastro de categorias.
 
-```<?php
+```
+<?php
 include_once('controller/conexao.php');
 ?>
 <!DOCTYPE html>
@@ -97,7 +98,8 @@ Página inicial que exibe os produtos.
 Processa o cadastro de uma nova categoria.
 
 
-```<?php
+```
+<?php
 include('controller/conexao.php');
 
 $descricao = $_POST['descricao'];
@@ -120,7 +122,8 @@ mysqli_close($mysqli);
 Processa o cadastro de uma nova marca.
 
 
-```<?php
+```
+<?php
 include('controller/conexao.php');
 
 $descricao = $_POST['descricao'];
@@ -139,10 +142,11 @@ mysqli_close($mysqli);
 ?>
 ```
 
-6. insere-produto.php
+### 6. `insere-produto.php`
 Processa o cadastro de um novo produto.
 
 
+```
 <?php
 include_once('controller/conexao.php');
 
@@ -173,3 +177,134 @@ if (mysqli_affected_rows($mysqli) != 0) {
     ";
 }
 ?>
+```
+
+### 7. `marca.php`
+Formulário para cadastro de marcas.
+
+```
+<?php
+include_once('controller/conexao.php');
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>Cadastro de marca</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="center">
+      <h1>Cadastro de marca</h1>
+      <a href="index.php" target="_self">Voltar</a>
+    </div>
+  </header>
+  <section id="produtos">
+    <form action="insere-marca.php" method="post">
+      <label for="">Marca:</label>
+      <input type="text" name="descricao">
+      <input type="submit" value="Cadastrar">
+    </form>
+  </section>
+</body>
+</html>
+```
+
+### 8. `pedido.php`
+Exibe o resumo do pedido.
+
+```html
+Copiar código
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Resumo de Pedido</title>
+  <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
+  <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+</head>
+<body>
+  <header>
+    <div class="center">
+      <h1>Programação Web II - Resumo do Pedido</h1>
+      <a href="index.php">Inicial</a>
+    </div>
+  </header>
+  <section id="produtos">
+    <div class="center">
+      <div>
+        <?php require_once('controller/produtos-resumo.php'); ?>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
+```
+
+### 9. `produtos.php`
+Formulário para cadastro de produtos.
+
+```
+<?php
+include_once('controller/conexao.php');
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initialscale=1.0">
+  <title>Cadastro de produtos</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="center">
+      <h1>Cadastro de produto</h1>
+      <a href="index.php" target="_self">Voltar</a>
+    </div>
+  </header>
+  <section id="produtos">
+    <form action="insere-produto_3A.php" method="post">
+      Nome:<input type="text" name="nome"><br>
+      Descrição: <input type="text" name="descricao"><br>
+      Estoque: <input type="number" name="estoque"><br>
+      Preço: <input type="number" name="preco" min="0.00" max="10000.00" step="0.01"><br>
+      Categoria:
+      <select name="seleciona_categoria" id="">
+        <option value="">Selecione</option>
+        <?php
+        $resultado_categoria = "SELECT * FROM categoria";
+        $resultcategoria = mysqli_query($mysqli, $resultado_categoria);
+        while ($row_categorias = mysqli_fetch_assoc($resultcategoria)) { ?>
+          <option value="<?php echo $row_categorias['IDCATEGORIA']; ?>">
+            <?php echo $row_categorias['DESCRICAO']; ?>
+          </option>
+          <?php
+        }
+        ?>
+      </select>
+      <br>
+      Marca:
+      <select name="seleciona_marca" id="">
+        <option value="">Selecione</option>
+        <?php
+        $resultado_marca = "SELECT * FROM marca";
+        $resultmarca = mysqli_query($mysqli, $resultado_marca);
+        while ($row_marcas = mysqli_fetch_assoc($resultmarca)) { ?>
+          <option value="<?php echo $row_marcas['IDMARCA']; ?>">
+            <?php echo $row_marcas['DESCRICAO']; ?>
+          </option>
+          <?php
+        }
+        ?>
+      </select>
+      <br><br>
+      <input type="submit" value="Cadastrar">
+    </form>
+  </section>
+</body>
+</html>
+
+```
